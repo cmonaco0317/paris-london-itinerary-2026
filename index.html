@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Paris & London | May 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --paris-gold: #C9A84C;
+            --paris-blue: #002395;
+            --london-red: #CF101A;
+            --london-navy: #012169;
+            --dark: #07070F;
+        }
+
+        body {
+            background: var(--dark);
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        .slide-deck {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: absolute;
+            width: 100%; height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 48px 64px 72px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.45s ease;
+            overflow: hidden;
+        }
+
+        .slide.active { opacity: 1; visibility: visible; }
+
+        /* Progress Bar */
+        .progress-bar {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, #C9A84C, #CF101A);
+            transition: width 0.4s ease;
+            z-index: 1000;
+        }
+
+        /* Navigation */
+        .nav-controls {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            z-index: 1000;
+            background: rgba(0,0,0,0.5);
+            backdrop-filter: blur(12px);
+            padding: 10px 18px;
+            border-radius: 50px;
+            border: 1px solid rgba(255,255,255,0.08);
+        }
+
+        .nav-btn {
+            background: none;
+            border: 1px solid rgba(255,255,255,0.18);
+            color: #fff;
+            width: 34px; height: 34px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 15px;
+            transition: all 0.2s;
+            display: flex; align-items: center; justify-content: center;
+        }
+
+        .nav-btn:hover { background: rgba(255,255,255,0.12); }
+
+        .slide-dots { display: flex; gap: 6px; align-items: center; }
+        .dot {
+            width: 6px; height: 6px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.22);
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        .dot.active { background: #fff; width: 16px; border-radius: 3px; }
+
+        .slide-num-indicator {
+            position: fixed;
+            top: 18px;
+            right: 22px;
+            font-size: 11px;
+            opacity: 0.22;
+            letter-spacing: 0.1em;
+            z-index: 100;
+        }
+
+        /* ============ SLIDE 1: COVER ============ */
+        .slide-cover {
+            background:
+                radial-gradient(ellipse at 18% 50%, rgba(0,35,149,0.28) 0%, transparent 55%),
+                radial-gradient(ellipse at 82% 50%, rgba(207,16,26,0.22) 0%, transparent 55%),
+                #060612;
+            text-align: center;
+        }
+
+        .cover-eyebrow {
+            font-size: 11px;
+            letter-spacing: 0.32em;
+            text-transform: uppercase;
+            color: rgba(255,255,255,0.38);
+            margin-bottom: 28px;
+        }
+
+        .cover-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(60px, 10vw, 120px);
+            line-height: 0.92;
+            font-weight: 700;
+        }
+
+        .cover-paris {
+            background: linear-gradient(135deg, #D4AF37 0%, #F5D87A 50%, #B8860B 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+        }
+
+        .cover-amp {
+            font-size: clamp(28px, 4.5vw, 56px);
+            color: rgba(255,255,255,0.18);
+            display: block;
+            font-style: italic;
+            margin: 6px 0;
+        }
+
+        .cover-london {
+            background: linear-gradient(135deg, #E0E0E8 0%, #ffffff 50%, #BCC4D0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: block;
+        }
+
+        .cover-line {
+            width: 56px;
+            height: 1px;
+            margin: 30px auto;
+            background: linear-gradient(90deg, transparent, rgba(201,168,76,0.55), transparent);
+        }
+
+        .cover-dates {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .date-pill {
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 500;
+            letter-spacing: 0.04em;
+        }
+
+        .date-paris { background: rgba(201,168,76,0.12); border: 1px solid rgba(201,168,76,0.35); color: #C9A84C; }
+        .date-london { background: rgba(207,16,26,0.1); border: 1px solid rgba(207,16,26,0.3); color: #E06C72; }
+        .date-sep { color: rgba(255,255,255,0.18); font-size: 20px; }
+
+        /* ============ SLIDE 2: OVERVIEW ============ */
+        .slide-overview {
+            background: linear-gradient(140deg, #07071C 0%, #0D0D22 100%);
+        }
+
+        .overview-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            width: 100%;
+            max-width: 860px;
+        }
+
+        .city-card {
+            border-radius: 14px;
+            padding: 28px 30px;
+        }
+
+        .city-card-paris {
+            background: linear-gradient(135deg, rgba(0,35,149,0.22), rgba(0,35,149,0.06));
+            border: 1px solid rgba(201,168,76,0.22);
+        }
+
+        .city-card-london {
+            background: linear-gradient(135deg, rgba(207,16,26,0.18), rgba(207,16,26,0.04));
+            border: 1px solid rgba(207,16,26,0.28);
+        }
+
+        .city-flag { font-size: 30px; margin-bottom: 10px; display: block; }
+
+        .city-name {
+            font-family: 'Playfair Display', serif;
+            font-size: 26px;
+            font-weight: 700;
+            margin-bottom: 14px;
+        }
+
+        .city-meta-row {
+            margin-bottom: 8px;
+        }
+
+        .city-meta-label {
+            font-size: 10px;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            opacity: 0.38;
+            margin-bottom: 2px;
+        }
+
+        .city-meta-value {
+            font-size: 14px;
+            font-weight: 500;
+            opacity: 0.88;
+        }
+
+        .city-divider {
+            height: 1px;
+            background: rgba(255,255,255,0.07);
+            margin: 14px 0;
+        }
+
+        .eurostar-bar {
+            margin-top: 18px;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 12px 20px;
+            font-size: 13px;
+            color: rgba(255,255,255,0.5);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            max-width: 860px;
+            width: 100%;
+        }
+
+        /* ============ DAY SLIDES ============ */
+        .slide-day {
+            align-items: flex-start;
+            padding: 36px 64px 72px;
+        }
+
+        .day-header {
+            display: flex;
+            align-items: baseline;
+            gap: 0;
+            margin-bottom: 22px;
+            width: 100%;
+        }
+
+        .day-label {
+            font-size: 10px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            opacity: 0.35;
+            margin-bottom: 5px;
+        }
+
+        .day-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(22px, 3vw, 34px);
+            font-weight: 700;
+            line-height: 1.1;
+        }
+
+        .day-date-badge {
+            margin-left: auto;
+            font-size: 11px;
+            opacity: 0.35;
+            letter-spacing: 0.06em;
+            white-space: nowrap;
+        }
+
+        .city-badge {
+            font-size: 10px;
+            letter-spacing: 0.12em;
+            text-transform: uppercase;
+            padding: 3px 9px;
+            border-radius: 50px;
+            margin-left: 10px;
+            vertical-align: middle;
+        }
+
+        .paris-badge {
+            background: rgba(201,168,76,0.1);
+            color: #C9A84C;
+            border: 1px solid rgba(201,168,76,0.22);
+        }
+
+        .london-badge {
+            background: rgba(207,16,26,0.1);
+            color: #E06C72;
+            border: 1px solid rgba(207,16,26,0.22);
+        }
+
+        .timeline {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            width: 100%;
+        }
+
+        .timeline-item {
+            display: grid;
+            grid-template-columns: 82px 28px 1fr;
+            gap: 0 14px;
+            align-items: start;
+        }
+
+        .t-time {
+            font-size: 11px;
+            color: rgba(255,255,255,0.32);
+            padding-top: 13px;
+            text-align: right;
+            letter-spacing: 0.02em;
+        }
+
+        .t-connector {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .t-dot {
+            width: 9px; height: 9px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 14px;
+        }
+
+        .t-line {
+            width: 1px;
+            flex: 1;
+            min-height: 16px;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .t-card {
+            background: rgba(255,255,255,0.045);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 10px;
+            padding: 11px 15px;
+        }
+
+        .t-card-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .t-card-note {
+            font-size: 11.5px;
+            color: rgba(255,255,255,0.42);
+            line-height: 1.45;
+        }
+
+        .paris-dot { background: #C9A84C; box-shadow: 0 0 7px rgba(201,168,76,0.45); }
+        .london-dot { background: #CF101A; box-shadow: 0 0 7px rgba(207,16,26,0.45); }
+
+        .paris-card { border-left: 2px solid rgba(201,168,76,0.35); }
+        .london-card { border-left: 2px solid rgba(207,16,26,0.35); }
+
+        .bg-paris {
+            background:
+                radial-gradient(ellipse at 88% 12%, rgba(0,35,149,0.1) 0%, transparent 45%),
+                radial-gradient(ellipse at 12% 88%, rgba(201,168,76,0.06) 0%, transparent 45%),
+                #07080F;
+        }
+
+        .bg-london {
+            background:
+                radial-gradient(ellipse at 88% 12%, rgba(207,16,26,0.09) 0%, transparent 45%),
+                radial-gradient(ellipse at 12% 88%, rgba(1,33,105,0.12) 0%, transparent 45%),
+                #07080F;
+        }
+
+        /* ============ EUROSTAR SLIDE ============ */
+        .slide-transfer {
+            background:
+                radial-gradient(ellipse at 30% 50%, rgba(0,35,149,0.15) 0%, transparent 55%),
+                radial-gradient(ellipse at 70% 50%, rgba(207,16,26,0.12) 0%, transparent 55%),
+                #06060F;
+            text-align: center;
+        }
+
+        .transfer-icon { font-size: 50px; margin-bottom: 16px; }
+
+        .transfer-route {
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            justify-content: center;
+            margin: 18px 0 24px;
+        }
+
+        .transfer-city {
+            font-family: 'Playfair Display', serif;
+            font-size: 30px;
+        }
+
+        .arrow-wrap {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .arrow-line {
+            width: 72px;
+            height: 1px;
+            background: linear-gradient(90deg, rgba(201,168,76,0.5), rgba(207,16,26,0.5));
+        }
+
+        .arrow-label { font-size: 10px; opacity: 0.35; letter-spacing: 0.1em; }
+
+        .transfer-details {
+            display: flex;
+            gap: 0;
+            justify-content: center;
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 12px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+
+        .transfer-detail {
+            padding: 14px 28px;
+            text-align: center;
+            border-right: 1px solid rgba(255,255,255,0.07);
+        }
+        .transfer-detail:last-child { border-right: none; }
+
+        .detail-label { font-size: 10px; opacity: 0.38; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+        .detail-value { font-size: 15px; font-weight: 600; }
+
+        .transfer-tip {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 10px;
+            padding: 12px 22px;
+            font-size: 12px;
+            color: rgba(255,255,255,0.42);
+            max-width: 400px;
+        }
+
+        /* ============ BOOKING ============ */
+        .slide-booking {
+            background:
+                radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.07) 0%, transparent 55%),
+                #06060F;
+            align-items: flex-start;
+        }
+
+        .section-heading {
+            width: 100%;
+            max-width: 860px;
+            margin-bottom: 18px;
+        }
+
+        .section-eyebrow {
+            font-size: 10px;
+            letter-spacing: 0.28em;
+            text-transform: uppercase;
+            opacity: 0.32;
+            margin-bottom: 5px;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            font-size: clamp(20px, 2.8vw, 30px);
+        }
+
+        .booking-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+            max-width: 860px;
+        }
+
+        .booking-item {
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 10px;
+            padding: 13px 16px;
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .booking-check {
+            width: 18px; height: 18px;
+            border-radius: 4px;
+            border: 1.5px solid rgba(255,255,255,0.18);
+            flex-shrink: 0;
+            margin-top: 2px;
+        }
+
+        .booking-name {
+            font-size: 13.5px;
+            font-weight: 600;
+            margin-bottom: 2px;
+        }
+
+        .booking-note {
+            font-size: 11px;
+            color: rgba(255,255,255,0.38);
+            line-height: 1.4;
+        }
+
+        .urgent { border-left: 2px solid rgba(255,140,50,0.45); }
+        .urgent .booking-check { border-color: rgba(255,140,50,0.45); }
+
+        /* Animations */
+        .slide.active .animate-fade-up {
+            animation: fadeUp 0.55s ease-out forwards;
+        }
+
+        .slide.active .animate-stagger > * {
+            opacity: 0;
+            animation: fadeUp 0.45s ease-out forwards;
+        }
+        .slide.active .animate-stagger > *:nth-child(1) { animation-delay: 0.05s; }
+        .slide.active .animate-stagger > *:nth-child(2) { animation-delay: 0.12s; }
+        .slide.active .animate-stagger > *:nth-child(3) { animation-delay: 0.19s; }
+        .slide.active .animate-stagger > *:nth-child(4) { animation-delay: 0.26s; }
+        .slide.active .animate-stagger > *:nth-child(5) { animation-delay: 0.33s; }
+        .slide.active .animate-stagger > *:nth-child(6) { animation-delay: 0.40s; }
+        .slide.active .animate-stagger > *:nth-child(7) { animation-delay: 0.47s; }
+        .slide.active .animate-stagger > *:nth-child(8) { animation-delay: 0.54s; }
+
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(14px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+<div class="slide-num-indicator" id="slideNum">1 / 9</div>
+
+<div class="slide-deck">
+
+<!-- ===== SLIDE 1: COVER ===== -->
+<div class="slide slide-cover active">
+    <p class="cover-eyebrow">A 5-Day Journey · May 2026</p>
+    <div class="cover-title">
+        <span class="cover-paris">Paris</span>
+        <span class="cover-amp">&amp;</span>
+        <span class="cover-london">London</span>
+    </div>
+    <div class="cover-line"></div>
+    <div class="cover-dates">
+        <div class="date-pill date-paris">🗼 May 6–9 · Paris</div>
+        <span class="date-sep">→</span>
+        <div class="date-pill date-london">🎡 May 9–10 · London</div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 2: OVERVIEW ===== -->
+<div class="slide slide-overview">
+    <div class="section-heading animate-fade-up" style="text-align:center; margin-bottom:22px;">
+        <div class="section-eyebrow" style="text-align:center;">Your Trip at a Glance</div>
+        <div class="section-title" style="text-align:center;">Two cities · 5 days · Endless highlights</div>
+    </div>
+    <div class="overview-grid animate-stagger">
+        <div class="city-card city-card-paris">
+            <span class="city-flag">🇫🇷</span>
+            <div class="city-name" style="color:#C9A84C;">Paris</div>
+            <div class="city-meta-row">
+                <div class="city-meta-label">Dates</div>
+                <div class="city-meta-value">May 6 – 9, 2026 &nbsp;·&nbsp; 3 full days</div>
+            </div>
+            <div class="city-divider"></div>
+            <div class="city-meta-row">
+                <div class="city-meta-label">Hotel</div>
+                <div class="city-meta-value">Castille Paris &nbsp;·&nbsp; 1st Arr.</div>
+            </div>
+            <div class="city-meta-row" style="margin-top:8px;">
+                <div class="city-meta-label">Highlights</div>
+                <div class="city-meta-value" style="font-size:12px; opacity:0.7;">Louvre · Eiffel Tower · Notre-Dame · Montmartre</div>
+            </div>
+        </div>
+        <div class="city-card city-card-london">
+            <span class="city-flag">🇬🇧</span>
+            <div class="city-name" style="color:#E06C72;">London</div>
+            <div class="city-meta-row">
+                <div class="city-meta-label">Dates</div>
+                <div class="city-meta-value">May 9 – 10, 2026 &nbsp;·&nbsp; 1.5 days</div>
+            </div>
+            <div class="city-divider"></div>
+            <div class="city-meta-row">
+                <div class="city-meta-label">Hotel</div>
+                <div class="city-meta-value">2 Spring Gardens, Trafalgar Sq.</div>
+            </div>
+            <div class="city-meta-row" style="margin-top:8px;">
+                <div class="city-meta-label">Highlights</div>
+                <div class="city-meta-value" style="font-size:12px; opacity:0.7;">National Gallery · Tower of London · St Paul's</div>
+            </div>
+        </div>
+    </div>
+    <div class="eurostar-bar animate-fade-up">
+        🚄 &nbsp;<strong style="color:rgba(255,255,255,0.7);">Eurostar</strong> &nbsp;Paris Gare du Nord → London St Pancras &nbsp;·&nbsp; ~2h 15min &nbsp;·&nbsp; May 9 morning
+    </div>
+</div>
+
+<!-- ===== SLIDE 3: PARIS DAY 1 ===== -->
+<div class="slide slide-day bg-paris">
+    <div class="day-header animate-fade-up">
+        <div>
+            <div class="day-label">Day 1</div>
+            <div class="day-title">Museums &amp; Left Bank <span class="paris-badge city-badge">Paris 🇫🇷</span></div>
+        </div>
+        <div class="day-date-badge">Tuesday · May 6</div>
+    </div>
+    <div class="timeline animate-stagger">
+        <div class="timeline-item">
+            <div class="t-time">9:00 AM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">🏛 Louvre Museum</div>
+                <div class="t-card-note">Book timed-entry in advance · Plan 2–3 hrs · 5-min walk from hotel</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">12:30 PM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">🌿 Tuileries Garden &amp; Lunch</div>
+                <div class="t-card-note">Café Marly or picnic in the garden between the Louvre and Orangerie</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">2:00 PM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">🎨 Musée d'Orsay</div>
+                <div class="t-card-note">15-min walk · Impressionist masterpieces · Book online to skip queues</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">5:00 PM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">🌉 Seine &amp; Left Bank Stroll</div>
+                <div class="t-card-note">Cross Pont des Arts · Wander Saint-Germain-des-Prés cafés</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">7:30 PM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">🍷 Dinner · Saint-Germain-des-Prés</div>
+                <div class="t-card-note">Classic Parisian brasseries — Café de Flore, Les Deux Magots area</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 4: PARIS DAY 2 ===== -->
+<div class="slide slide-day bg-paris">
+    <div class="day-header animate-fade-up">
+        <div>
+            <div class="day-label">Day 2</div>
+            <div class="day-title">Île de la Cité &amp; Eiffel Tower <span class="paris-badge city-badge">Paris 🇫🇷</span></div>
+        </div>
+        <div class="day-date-badge">Wednesday · May 7</div>
+    </div>
+    <div class="timeline animate-stagger">
+        <div class="timeline-item">
+            <div class="t-time">9:00 AM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">⛪ Notre-Dame Cathedral</div>
+                <div class="t-card-note">Reopened Dec 2024 — timed entry required, very popular · Book well in advance</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">10:30 AM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">✨ Sainte-Chapelle</div>
+                <div class="t-card-note">Steps from Notre-Dame · Extraordinary medieval stained glass ceiling</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">12:30 PM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">🥙 Lunch · Le Marais</div>
+                <div class="t-card-note">Lively neighborhood · Famous falafel on Rue des Rosiers</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">2:30 PM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">🌸 Musée de l'Orangerie</div>
+                <div class="t-card-note">Monet's Water Lilies in the round rooms · short metro back to Tuileries</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">7:00 PM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">🗼 Eiffel Tower at Sunset</div>
+                <div class="t-card-note">⚠ Book summit tickets 2–3 weeks ahead · Trocadéro view first · Tower sparkles on the hour after dark</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 5: PARIS DAY 3 ===== -->
+<div class="slide slide-day bg-paris">
+    <div class="day-header animate-fade-up">
+        <div>
+            <div class="day-label">Day 3</div>
+            <div class="day-title">Arc de Triomphe &amp; Montmartre <span class="paris-badge city-badge">Paris 🇫🇷</span></div>
+        </div>
+        <div class="day-date-badge">Thursday · May 8</div>
+    </div>
+    <div class="timeline animate-stagger">
+        <div class="timeline-item">
+            <div class="t-time">9:30 AM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">🏛 Arc de Triomphe</div>
+                <div class="t-card-note">Climb to the top for panoramic Champs-Élysées &amp; Paris skyline views</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">11:00 AM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">🛍 Champs-Élysées Stroll</div>
+                <div class="t-card-note">Window shop or grab a café crème along the grand boulevard</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">2:00 PM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">⛪ Sacré-Cœur &amp; Montmartre</div>
+                <div class="t-card-note">Metro to Abbesses · Place du Tertre street artists · sweeping city views from the steps</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">5:30 PM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">🧳 Return &amp; Pack for London</div>
+                <div class="t-card-note">Head back to Castille Paris hotel · Prepare for Eurostar morning</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">7:30 PM</div>
+            <div class="t-connector"><div class="t-dot paris-dot"></div></div>
+            <div class="t-card paris-card">
+                <div class="t-card-title">🥂 Final Paris Dinner</div>
+                <div class="t-card-note">Place Vendôme / Tuileries area near hotel — savor your last Parisian evening</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 6: EUROSTAR ===== -->
+<div class="slide slide-transfer">
+    <div class="transfer-icon animate-fade-up">🚄</div>
+    <div class="section-eyebrow animate-fade-up" style="text-align:center; margin-bottom:6px;">Friday · May 9</div>
+    <div class="section-title animate-fade-up" style="text-align:center; font-size:clamp(24px,3.5vw,38px); margin-bottom:22px;">Eurostar to London</div>
+    <div class="transfer-route animate-fade-up">
+        <div style="text-align:right;">
+            <div class="transfer-city" style="color:#C9A84C;">Paris</div>
+            <div style="font-size:12px; opacity:0.38; margin-top:3px;">Gare du Nord</div>
+        </div>
+        <div class="arrow-wrap">
+            <div class="arrow-line"></div>
+            <div class="arrow-label">~2h 15m</div>
+        </div>
+        <div style="text-align:left;">
+            <div class="transfer-city" style="color:#E06C72;">London</div>
+            <div style="font-size:12px; opacity:0.38; margin-top:3px;">St Pancras Intl</div>
+        </div>
+    </div>
+    <div class="transfer-details animate-stagger">
+        <div class="transfer-detail">
+            <div class="detail-label">Suggested Train</div>
+            <div class="detail-value">9:00 – 10:00 AM</div>
+        </div>
+        <div class="transfer-detail">
+            <div class="detail-label">Arrive London</div>
+            <div class="detail-value">~11:30 AM</div>
+        </div>
+        <div class="transfer-detail">
+            <div class="detail-label">Arrive Gare du Nord</div>
+            <div class="detail-value">45 min early</div>
+        </div>
+    </div>
+    <div class="transfer-tip animate-fade-up">
+        💡 Book at eurostar.com — Standard Premier recommended for extra comfort &amp; flexibility
+    </div>
+</div>
+
+<!-- ===== SLIDE 7: LONDON MAY 9 PM ===== -->
+<div class="slide slide-day bg-london">
+    <div class="day-header animate-fade-up">
+        <div>
+            <div class="day-label">Day 4 — Afternoon</div>
+            <div class="day-title">Trafalgar &amp; Westminster <span class="london-badge city-badge">London 🇬🇧</span></div>
+        </div>
+        <div class="day-date-badge">Friday · May 9 · PM</div>
+    </div>
+    <div class="timeline animate-stagger">
+        <div class="timeline-item">
+            <div class="t-time">~12:30 PM</div>
+            <div class="t-connector"><div class="t-dot london-dot"></div><div class="t-line"></div></div>
+            <div class="t-card london-card">
+                <div class="t-card-title">🏨 Arrive &amp; Check In</div>
+                <div class="t-card-note">2 Spring Gardens, Trafalgar Square · Drop bags &amp; freshen up</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">2:30 PM</div>
+            <div class="t-connector"><div class="t-dot london-dot"></div><div class="t-line"></div></div>
+            <div class="t-card london-card">
+                <div class="t-card-title">🖼 National Gallery</div>
+                <div class="t-card-note">Free entry · 5.2M visitors/yr · Van Gogh, Monet, da Vinci · 2 min from your door</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">4:30 PM</div>
+            <div class="t-connector"><div class="t-dot london-dot"></div><div class="t-line"></div></div>
+            <div class="t-card london-card">
+                <div class="t-card-title">🦁 Trafalgar Square</div>
+                <div class="t-card-note">Nelson's Column · London's iconic central plaza — right on your doorstep</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">5:30 PM</div>
+            <div class="t-connector"><div class="t-dot london-dot"></div><div class="t-line"></div></div>
+            <div class="t-card london-card">
+                <div class="t-card-title">⏰ Westminster Walk</div>
+                <div class="t-card-note">15-min walk south · Big Ben · Houses of Parliament · Westminster Bridge Thames views</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">7:30 PM</div>
+            <div class="t-connector"><div class="t-dot london-dot"></div></div>
+            <div class="t-card london-card">
+                <div class="t-card-title">🍴 Dinner · Covent Garden</div>
+                <div class="t-card-note">10-min walk east · Excellent restaurants &amp; vibrant street atmosphere</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 8: LONDON MAY 10 ===== -->
+<div class="slide slide-day bg-london">
+    <div class="day-header animate-fade-up">
+        <div>
+            <div class="day-label">Day 5 — Full Day</div>
+            <div class="day-title">Tower of London &amp; The City <span class="london-badge city-badge">London 🇬🇧</span></div>
+        </div>
+        <div class="day-date-badge">Saturday · May 10</div>
+    </div>
+    <div class="timeline animate-stagger">
+        <div class="timeline-item">
+            <div class="t-time">9:00 AM</div>
+            <div class="t-connector"><div class="t-dot london-dot"></div><div class="t-line"></div></div>
+            <div class="t-card london-card">
+                <div class="t-card-title">🏰 Tower of London</div>
+                <div class="t-card-note">⚠ Book ahead at hrp.org.uk · Crown Jewels · Beefeaters · Arrive at open</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">11:30 AM</div>
+            <div class="t-connector"><div class="t-dot london-dot"></div><div class="t-line"></div></div>
+            <div class="t-card london-card">
+                <div class="t-card-title">🌉 Tower Bridge</div>
+                <div class="t-card-note">Walk across · Glass floor walkway · Combo ticket with Tower saves money</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">12:30 PM</div>
+            <div class="t-connector"><div class="t-dot london-dot"></div><div class="t-line"></div></div>
+            <div class="t-card london-card">
+                <div class="t-card-title">🥐 Borough Market</div>
+                <div class="t-card-note">10-min walk from Tower · One of London's best food markets · Open Saturdays</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">2:30 PM</div>
+            <div class="t-connector"><div class="t-dot london-dot"></div><div class="t-line"></div></div>
+            <div class="t-card london-card">
+                <div class="t-card-title">⛪ St Paul's Cathedral</div>
+                <div class="t-card-note">Christopher Wren masterpiece · Climb the dome for London views · stpauls.co.uk</div>
+            </div>
+        </div>
+        <div class="timeline-item">
+            <div class="t-time">5:30 PM</div>
+            <div class="t-connector"><div class="t-dot london-dot"></div></div>
+            <div class="t-card london-card">
+                <div class="t-card-title">🎡 Piccadilly Circus &amp; Soho</div>
+                <div class="t-card-note">5-min walk from hotel · Covent Garden or West End for your farewell dinner</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ===== SLIDE 9: BOOKING CHECKLIST ===== -->
+<div class="slide slide-booking">
+    <div class="section-heading animate-fade-up">
+        <div class="section-eyebrow">Before You Go</div>
+        <div class="section-title">Booking Checklist</div>
+    </div>
+    <div class="booking-grid animate-stagger">
+        <div class="booking-item urgent">
+            <div class="booking-check"></div>
+            <div>
+                <div class="booking-name">🗼 Eiffel Tower — Summit</div>
+                <div class="booking-note">Book 2–3 weeks ahead · book.toureiffel.paris · Evening slot for sunset &amp; sparkle</div>
+            </div>
+        </div>
+        <div class="booking-item urgent">
+            <div class="booking-check"></div>
+            <div>
+                <div class="booking-name">⛪ Notre-Dame Cathedral</div>
+                <div class="booking-note">Free but timed entry required post-reopening · Book entry slot in advance</div>
+            </div>
+        </div>
+        <div class="booking-item urgent">
+            <div class="booking-check"></div>
+            <div>
+                <div class="booking-name">🚄 Eurostar — May 9</div>
+                <div class="booking-note">Book early for best prices · eurostar.com · Standard Premier recommended</div>
+            </div>
+        </div>
+        <div class="booking-item">
+            <div class="booking-check"></div>
+            <div>
+                <div class="booking-name">🏛 Louvre Museum</div>
+                <div class="booking-note">Timed-entry required · louvre.fr · Best in early morning to avoid crowds</div>
+            </div>
+        </div>
+        <div class="booking-item">
+            <div class="booking-check"></div>
+            <div>
+                <div class="booking-name">🎨 Musée d'Orsay</div>
+                <div class="booking-note">Book online to skip queues · musee-orsay.fr</div>
+            </div>
+        </div>
+        <div class="booking-item">
+            <div class="booking-check"></div>
+            <div>
+                <div class="booking-name">✨ Sainte-Chapelle</div>
+                <div class="booking-note">Timed slot advised · sainte-chapelle.fr · Morning for best stained glass light</div>
+            </div>
+        </div>
+        <div class="booking-item">
+            <div class="booking-check"></div>
+            <div>
+                <div class="booking-name">🏰 Tower of London</div>
+                <div class="booking-note">Book ahead · hrp.org.uk · Combo with Tower Bridge saves money</div>
+            </div>
+        </div>
+        <div class="booking-item">
+            <div class="booking-check"></div>
+            <div>
+                <div class="booking-name">⛪ St Paul's Cathedral</div>
+                <div class="booking-note">Book online · stpauls.co.uk · Include dome climb for panoramic views</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</div><!-- /.slide-deck -->
+
+<!-- Navigation -->
+<div class="nav-controls">
+    <button class="nav-btn" onclick="prevSlide()">←</button>
+    <div class="slide-dots" id="dots"></div>
+    <button class="nav-btn" onclick="nextSlide()">→</button>
+</div>
+
+<script>
+    let current = 1;
+    const slides = document.querySelectorAll('.slide');
+    const total = slides.length;
+
+    const dotsEl = document.getElementById('dots');
+    for (let i = 0; i < total; i++) {
+        const d = document.createElement('div');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.onclick = () => showSlide(i + 1);
+        dotsEl.appendChild(d);
+    }
+
+    function showSlide(n) {
+        if (n < 1) n = 1;
+        if (n > total) n = total;
+        slides[current - 1].classList.remove('active');
+        current = n;
+        slides[current - 1].classList.add('active');
+        document.getElementById('progressBar').style.width = (current / total * 100) + '%';
+        document.getElementById('slideNum').textContent = current + ' / ' + total;
+        document.querySelectorAll('.dot').forEach((d, i) => d.classList.toggle('active', i === current - 1));
+    }
+
+    function nextSlide() { showSlide(current + 1); }
+    function prevSlide() { showSlide(current - 1); }
+
+    document.addEventListener('keydown', e => {
+        if (e.key === 'ArrowRight' || e.key === ' ') { e.preventDefault(); nextSlide(); }
+        if (e.key === 'ArrowLeft') { e.preventDefault(); prevSlide(); }
+    });
+
+    let startX = 0;
+    document.addEventListener('touchstart', e => { startX = e.touches[0].clientX; });
+    document.addEventListener('touchend', e => {
+        const diff = startX - e.changedTouches[0].clientX;
+        if (Math.abs(diff) > 50) diff > 0 ? nextSlide() : prevSlide();
+    });
+
+    showSlide(1);
+</script>
+</body>
+</html>
