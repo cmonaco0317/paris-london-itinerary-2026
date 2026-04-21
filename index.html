@@ -382,6 +382,20 @@
         .paris-card { border-left: 2px solid rgba(201,168,76,0.35); }
         .london-card { border-left: 2px solid rgba(207,16,26,0.35); }
 
+        .t-card-header { display: flex; align-items: center; justify-content: space-between; gap: 10px; margin-bottom: 2px; }
+        .rating {
+            font-size: 10.5px;
+            font-weight: 600;
+            color: #F5C842;
+            background: rgba(245,200,66,0.1);
+            border: 1px solid rgba(245,200,66,0.22);
+            border-radius: 50px;
+            padding: 2px 8px;
+            white-space: nowrap;
+            flex-shrink: 0;
+            letter-spacing: 0.02em;
+        }
+
         .bg-paris {
             background:
                 radial-gradient(ellipse at 88% 12%, rgba(0,35,149,0.1) 0%, transparent 45%),
@@ -642,7 +656,7 @@
             <div class="t-time">9:00 AM</div>
             <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
             <div class="t-card paris-card">
-                <div class="t-card-title">🏛 Louvre Museum</div>
+                <div class="t-card-header"><div class="t-card-title">🏛 Louvre Museum</div><span class="rating">⭐ 4.6 · 104K reviews</span></div>
                 <div class="t-card-note">Book timed-entry in advance · Plan 2–3 hrs · 5-min walk from hotel</div>
             </div>
         </div>
@@ -658,7 +672,7 @@
             <div class="t-time">2:00 PM</div>
             <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
             <div class="t-card paris-card">
-                <div class="t-card-title">🎨 Musée d'Orsay</div>
+                <div class="t-card-header"><div class="t-card-title">🎨 Musée d'Orsay</div><span class="rating">⭐ 4.7 · 31K reviews</span></div>
                 <div class="t-card-note">15-min walk · Impressionist masterpieces · Book online to skip queues</div>
             </div>
         </div>
@@ -695,7 +709,7 @@
             <div class="t-time">9:00 AM</div>
             <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
             <div class="t-card paris-card">
-                <div class="t-card-title">⛪ Notre-Dame Cathedral</div>
+                <div class="t-card-header"><div class="t-card-title">⛪ Notre-Dame Cathedral</div><span class="rating">⭐ 4.7 · 100K+ reviews</span></div>
                 <div class="t-card-note">Reopened Dec 2024 — timed entry required, very popular · Book well in advance</div>
             </div>
         </div>
@@ -703,7 +717,7 @@
             <div class="t-time">10:30 AM</div>
             <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
             <div class="t-card paris-card">
-                <div class="t-card-title">✨ Sainte-Chapelle</div>
+                <div class="t-card-header"><div class="t-card-title">✨ Sainte-Chapelle</div><span class="rating">⭐ 4.3 · 30K reviews</span></div>
                 <div class="t-card-note">Steps from Notre-Dame · Extraordinary medieval stained glass ceiling</div>
             </div>
         </div>
@@ -719,7 +733,7 @@
             <div class="t-time">2:30 PM</div>
             <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
             <div class="t-card paris-card">
-                <div class="t-card-title">🌸 Musée de l'Orangerie</div>
+                <div class="t-card-header"><div class="t-card-title">🌸 Musée de l'Orangerie</div><span class="rating">⭐ 4.7 · 22K reviews</span></div>
                 <div class="t-card-note">Monet's Water Lilies in the round rooms · short metro back to Tuileries</div>
             </div>
         </div>
@@ -727,7 +741,7 @@
             <div class="t-time">7:00 PM</div>
             <div class="t-connector"><div class="t-dot paris-dot"></div></div>
             <div class="t-card paris-card">
-                <div class="t-card-title">🗼 Eiffel Tower at Sunset</div>
+                <div class="t-card-header"><div class="t-card-title">🗼 Eiffel Tower at Sunset</div><span class="rating">⭐ 4.7 · 143K reviews</span></div>
                 <div class="t-card-note">⚠ Book summit tickets 2–3 weeks ahead · Trocadéro view first · Tower sparkles on the hour after dark</div>
             </div>
         </div>
@@ -748,7 +762,7 @@
             <div class="t-time">9:30 AM</div>
             <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
             <div class="t-card paris-card">
-                <div class="t-card-title">🏛 Arc de Triomphe</div>
+                <div class="t-card-header"><div class="t-card-title">🏛 Arc de Triomphe</div><span class="rating">⭐ 4.7 · 56K reviews</span></div>
                 <div class="t-card-note">Climb to the top for panoramic Champs-Élysées &amp; Paris skyline views</div>
             </div>
         </div>
@@ -764,7 +778,7 @@
             <div class="t-time">2:00 PM</div>
             <div class="t-connector"><div class="t-dot paris-dot"></div><div class="t-line"></div></div>
             <div class="t-card paris-card">
-                <div class="t-card-title">⛪ Sacré-Cœur &amp; Montmartre</div>
+                <div class="t-card-header"><div class="t-card-title">⛪ Sacré-Cœur &amp; Montmartre</div><span class="rating">⭐ 4.8 · 89K reviews</span></div>
                 <div class="t-card-note">Metro to Abbesses · Place du Tertre street artists · sweeping city views from the steps</div>
             </div>
         </div>
@@ -847,7 +861,7 @@
             <div class="t-time">2:30 PM</div>
             <div class="t-connector"><div class="t-dot london-dot"></div><div class="t-line"></div></div>
             <div class="t-card london-card">
-                <div class="t-card-title">🖼 National Gallery</div>
+                <div class="t-card-header"><div class="t-card-title">🖼 National Gallery</div><span class="rating">⭐ 4.7 · 78K reviews</span></div>
                 <div class="t-card-note">Free entry · 5.2M visitors/yr · Van Gogh, Monet, da Vinci · 2 min from your door</div>
             </div>
         </div>
@@ -892,7 +906,7 @@
             <div class="t-time">9:00 AM</div>
             <div class="t-connector"><div class="t-dot london-dot"></div><div class="t-line"></div></div>
             <div class="t-card london-card">
-                <div class="t-card-title">🏰 Tower of London</div>
+                <div class="t-card-header"><div class="t-card-title">🏰 Tower of London</div><span class="rating">⭐ 4.6 · 69K reviews</span></div>
                 <div class="t-card-note">⚠ Book ahead at hrp.org.uk · Crown Jewels · Beefeaters · Arrive at open</div>
             </div>
         </div>
@@ -900,7 +914,7 @@
             <div class="t-time">11:30 AM</div>
             <div class="t-connector"><div class="t-dot london-dot"></div><div class="t-line"></div></div>
             <div class="t-card london-card">
-                <div class="t-card-title">🌉 Tower Bridge</div>
+                <div class="t-card-header"><div class="t-card-title">🌉 Tower Bridge</div><span class="rating">⭐ 4.6 · 51K reviews</span></div>
                 <div class="t-card-note">Walk across · Glass floor walkway · Combo ticket with Tower saves money</div>
             </div>
         </div>
@@ -908,7 +922,7 @@
             <div class="t-time">12:30 PM</div>
             <div class="t-connector"><div class="t-dot london-dot"></div><div class="t-line"></div></div>
             <div class="t-card london-card">
-                <div class="t-card-title">🥐 Borough Market</div>
+                <div class="t-card-header"><div class="t-card-title">🥐 Borough Market</div><span class="rating">⭐ 4.6 · 44K reviews</span></div>
                 <div class="t-card-note">10-min walk from Tower · One of London's best food markets · Open Saturdays</div>
             </div>
         </div>
@@ -916,7 +930,7 @@
             <div class="t-time">2:30 PM</div>
             <div class="t-connector"><div class="t-dot london-dot"></div><div class="t-line"></div></div>
             <div class="t-card london-card">
-                <div class="t-card-title">⛪ St Paul's Cathedral</div>
+                <div class="t-card-header"><div class="t-card-title">⛪ St Paul's Cathedral</div><span class="rating">⭐ 4.5 · 18K reviews</span></div>
                 <div class="t-card-note">Christopher Wren masterpiece · Climb the dome for London views · stpauls.co.uk</div>
             </div>
         </div>
